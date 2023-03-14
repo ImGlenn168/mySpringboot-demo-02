@@ -18,7 +18,6 @@ public class RandomWordsDaoImpl implements RandomWordsDao {
                 String.class).getBody();
         RandomWords randomWords = JSON.parseObject(body, RandomWords.class);
         System.out.println(randomWords);
-        return restTemplate.getForEntity("https://api.uomg.com/api/rand.qinghua?format=json",
-                String.class).getBody();
+        return body;
     }
 }
