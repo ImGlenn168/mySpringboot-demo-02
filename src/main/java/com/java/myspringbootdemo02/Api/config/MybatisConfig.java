@@ -12,8 +12,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
 
-//@Configuration
-//@MapperScan(basePackages = "com.java.myspringbootdemo02.persistence.*")
+@Configuration
 public class MybatisConfig {
     @Bean("sqlSessionFactory")
     @Primary

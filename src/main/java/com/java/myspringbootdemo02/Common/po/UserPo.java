@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,9 +15,12 @@ public class UserPo {
     private String password;
     private String phone;
 
-    public UserPo(String userName, String password, String phone) {
-        this.userName = userName;
-        this.password = password;
-        this.phone = phone;
-    }
+    private String dept;
+    private int status;
+    private String hireTime;
+
+    private Date createTime;
+    private Date updateTime;
+
+    private int state;
 }

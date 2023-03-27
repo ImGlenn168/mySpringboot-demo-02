@@ -1,13 +1,12 @@
 package com.java.myspringbootdemo02.Api.controller.account;
 
-import com.java.myspringbootdemo02.Common.dto.AccountDto;
+import com.java.myspringbootdemo02.Api.result.Result;
 import org.springframework.web.bind.annotation.GetMapping;
-import java.util.List;
 
 public interface AccountController {
 
     @GetMapping ("account/find")
-    List<AccountDto> findAll();
+    Result findAll();
 
     @GetMapping("account/test01")
     String test01();
