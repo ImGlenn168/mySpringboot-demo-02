@@ -7,16 +7,16 @@ public enum UserStateEnum {
     private int code;
     private String state;
 
-    UserStateEnum(int code, String status) {
+    UserStateEnum(int code, String state) {
         this.code = code;
-        this.state = status;
+        this.state = state;
     }
 
     public int getCode() {
         return code;
     }
 
-    public String getStatus() {
+    public String getState() {
         return state;
     }
 

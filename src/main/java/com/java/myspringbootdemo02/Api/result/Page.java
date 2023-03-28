@@ -26,6 +26,9 @@ public class Page<T> {
     // 具体数据
     private List<T> records;
 
+    public Page() {
+    }
+
     public Page(int pageSize, int currentPage, int totalSize, List<T> records) {
         this.pageSize = pageSize;
         this.currentPage = currentPage;
@@ -34,7 +37,7 @@ public class Page<T> {
 
         this.totalPages = (int) Math.ceil(totalSize / (pageSize * 1.0));
 
-        this.preNum = currentPage - 1 < 1 ? 1 : currentPage - 1;
+        this.preNum = Math.max(currentPage - 1, 1);
         this.nextNum = currentPage + 1 > totalPages ? totalSize : currentPage + 1;
 
         this.startNavNum = currentPage - 3;
@@ -42,12 +45,12 @@ public class Page<T> {
 
         if (startNavNum < 1) {
             this.startNavNum = 1;
-            this.endNavNum = startNavNum + 5 > totalPages ? totalPages : startNavNum + 5;
+            this.endNavNum = Math.min(startNavNum + 5, totalPages);
         }
 
         if (endNavNum > totalPages) {
             this.endNavNum = totalPages;
-            this.startNavNum = endNavNum - 5 < 1 ? 1 : endNavNum - 5;
+            this.startNavNum = Math.max(endNavNum - 5, 1);
         }
     }
 }

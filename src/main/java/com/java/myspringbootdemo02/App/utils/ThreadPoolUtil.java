@@ -24,7 +24,7 @@ public class ThreadPoolUtil {
                 }
             }
         }
-        return null;
+        return threadPoolExecutor;
     }
 
     public static ExecutorService getExecutorService() {

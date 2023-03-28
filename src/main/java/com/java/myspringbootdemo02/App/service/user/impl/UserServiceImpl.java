@@ -1,6 +1,9 @@
 package com.java.myspringbootdemo02.App.service.user.impl;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelReader;
 import com.java.myspringbootdemo02.App.service.user.IUserService;
+import com.java.myspringbootdemo02.App.utils.ThreadPoolUtil;
 import com.java.myspringbootdemo02.Common.enums.user.UserStateEnum;
 import com.java.myspringbootdemo02.Common.enums.user.UserStatusEnum;
 import com.java.myspringbootdemo02.Common.po.UserPo;
@@ -8,10 +11,10 @@ import com.java.myspringbootdemo02.Common.vo.UserVo;
 import com.java.myspringbootdemo02.Domain.persistence.IUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service(value = "userService")
 public class UserServiceImpl implements IUserService {
@@ -42,7 +45,7 @@ public class UserServiceImpl implements IUserService {
         userVo.setCreateTime(simpleDateFormat.format(user.getCreateTime()));
         userVo.setUpdateTime(simpleDateFormat.format(user.getUpdateTime()));
         userVo.setStateCode(UserStateEnum.getUserStatusByCode(user.getState()).getCode());
-        userVo.setState(UserStateEnum.getUserStatusByCode(user.getState()).getStatus());
+        userVo.setState(UserStateEnum.getUserStatusByCode(user.getState()).getState());
         return userVo;
     }
 
@@ -72,5 +75,32 @@ public class UserServiceImpl implements IUserService {
     @Override
     public int deleteUserById(UserVo user) {
         return userDao.deleteUserById(getUserPo(user));
+    }
+
+    @Override
+    public List<UserVo> findByPage(Map<String, Integer> map) {
+        List<UserPo> userPos = userDao.findByPage(map);
+        List<UserVo> userVos = new ArrayList<>();
+        for (UserPo userPo : userPos) {
+            UserVo userVo = getUserVo(userPo);
+            userVos.add(userVo);
+        }
+        return userVos;
+    }
+
+    @Override
+    public int batchAdd(List<UserVo> list) {
+        ArrayList<UserVo> userVos = new ArrayList<>();
+        ThreadPoolUtil.execute(new Runnable() {
+            @Override
+            public void run() {
+                for (UserVo userVo : list) {
+                    userVo.setStatusCode(2);
+                    userVo.setStateCode(1);
+                    userVos.add(userVo);
+                }
+            }
+        });
+        return userDao.batchAdd(userVos);
     }
 }

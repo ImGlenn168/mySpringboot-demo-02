@@ -1,28 +1,24 @@
-package com.java.myspringbootdemo02.test;
+package com.java.myspringbootdemo02.test.rabbitmq;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import javax.annotation.Resource;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class RabbitmqTest {
-
+public class PublishTest {
     @Resource
     private RabbitTemplate rabbitTemplate;
 
-    @Autowired
-    private Queue queue;
+    // 交换机
+    public final static String fanoutExchangePublish="fanout_publish_exchange";
 
     @Test
-    public void contextLoads(){
-        String message="Hello Simple RabbitMQ";
-        rabbitTemplate.convertAndSend(queue.getName(),message);
+    public void send(){
+        String message="Hello Publish RabbitMQ";
+        rabbitTemplate.convertAndSend(fanoutExchangePublish,"",message);
     }
 }

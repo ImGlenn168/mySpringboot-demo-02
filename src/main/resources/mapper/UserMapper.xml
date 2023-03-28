@@ -7,11 +7,23 @@
         values (#{userName}, #{password}, #{phone}, #{dept}, #{status}, #{hireTime}, now(), now(), #{state})
     </insert>
 
+    <insert id="batchAdd" parameterType="com.java.myspringbootdemo02.Common.po.UserPo">
+        insert into user_management(user_name, password, phone, dept, status, hire_time, create_time, update_time, state)
+        values
+        <foreach collection="list" separator="," item="item">
+        (#{item.userName}, #{item.password}, #{item.phone}, #{item.dept}, #{item.status}, #{item.hireTime}, now(), now(), #{item.state})
+        </foreach>
+    </insert>
+
     <sql id="allFields">
         id, user_name, phone, dept, status, hire_time, create_time, update_time, state
     </sql>
     <select id="findAll" resultType="com.java.myspringbootdemo02.Common.po.UserPo">
         select <include refid="allFields"></include> from user_management
+    </select>
+
+    <select id="findByPage" resultType="com.java.myspringbootdemo02.Common.po.UserPo">
+        select <include refid="allFields"></include> from user_management limit #{startIndex},#{pageSize}
     </select>
 
     <update id="updateUserById">

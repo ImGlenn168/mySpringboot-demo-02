@@ -25,4 +25,17 @@ public class UserVo extends BaseEntity {
     private String hireTime;
     private int stateCode;
     private String state;
+
+    public UserVo(String userName, String password, String phone,
+                  String dept, int statusCode, String hireTime, int stateCode) {
+        this.userName = userName;
+        this.password = password;
+        this.phone = phone;
+        this.dept = dept;
+        this.statusCode = statusCode;
+        this.status = status;
+        this.hireTime = hireTime;
+        this.stateCode = stateCode;
+        this.state = state;
+    }
 }

@@ -1,11 +1,10 @@
 package com.java.myspringbootdemo02.Domain.persistence;
 
-import com.java.myspringbootdemo02.Common.po.AccountPO;
 import com.java.myspringbootdemo02.Common.po.UserPo;
 import com.java.myspringbootdemo02.Common.vo.UserVo;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IUserDao {
      List<UserPo> findAll();
@@ -15,4 +14,8 @@ public interface IUserDao {
      int updateUser(UserPo userPo);
 
      int deleteUserById(UserPo user);
+
+     int batchAdd(List<UserVo> list);
+
+     List<UserPo> findByPage(Map<String,Integer> map);
 }
