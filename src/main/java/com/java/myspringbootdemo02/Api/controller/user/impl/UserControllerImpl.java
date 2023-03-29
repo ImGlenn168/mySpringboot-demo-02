@@ -3,13 +3,18 @@ package com.java.myspringbootdemo02.Api.controller.user.impl;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.listener.PageReadListener;
 import com.alibaba.excel.util.StringUtils;
+import com.alibaba.excel.write.builder.ExcelWriterBuilder;
+import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
 import com.java.myspringbootdemo02.Api.controller.user.UserController;
 import com.java.myspringbootdemo02.Api.result.Result;
+import com.java.myspringbootdemo02.App.exception.MyApplicationException;
 import com.java.myspringbootdemo02.App.service.user.impl.UserServiceImpl;
 import com.java.myspringbootdemo02.Common.entity.User;
 import com.java.myspringbootdemo02.Common.enums.user.UserStateEnum;
 import com.java.myspringbootdemo02.Common.enums.user.UserStatusEnum;
 import com.java.myspringbootdemo02.Common.vo.UserVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,6 +30,7 @@ import java.util.List;
 @CrossOrigin("*")
 public class UserControllerImpl implements UserController {
 
+    private static final Logger log= LoggerFactory.getLogger(UserControllerImpl.class);
     @Autowired
     @Qualifier(value = "userService")
     private UserServiceImpl userService;
@@ -74,7 +80,7 @@ public class UserControllerImpl implements UserController {
     }
 
 
-    public void ExportExcel() {
+    public Result ExportExcel() {
         // 设置文件导出的路径
         String realPath = "E://wsfile/";
         File folder = new File(realPath);
@@ -83,12 +89,31 @@ public class UserControllerImpl implements UserController {
         }
         String fileName = realPath + "User" + System.currentTimeMillis() + ".xlsx";
         // 这里 需要指定写用哪个class去写，然后写到第一个sheet，名字为用户表 然后文件流会自动关闭
-        EasyExcel.write(fileName, User.class).sheet("用户表").doWrite(getData());
+        try {
+            ExcelWriterBuilder write = EasyExcel.write(fileName, User.class);
+            ExcelWriterSheetBuilder userTable = write.sheet("用户表");
+            List<User> data = getData();
+            log.info("用户表导出数量："+data.size());
+            System.err.println("用户表导出开始............");
+            long start = System.currentTimeMillis();
+            userTable.doWrite(data);
+            long end = System.currentTimeMillis();
+            long result=end-start;
+            log.info("用户表导出所用到的时间："+result);
+        } catch (Exception e) {
+            throw new MyApplicationException("导出失败！");
+        }
+        return Result.success("下载成功，文件已存入：E:/wsfile/");
     }
 
-    public List<User> getData() {
-        // 查询用户表,具体service层实现就不写了
+    private List<User> getData() {
+        // 查询用户表
+        System.err.println("用户表查询开始............");
+        long start = System.currentTimeMillis();
         List<UserVo> all = userService.findAll();
+        long end = System.currentTimeMillis();
+        long result=end-start;
+        log.info("用户表查询所用到的时间："+result);
         ArrayList<User> users = new ArrayList<>();
         for (UserVo userVo : all) {
             users.add(getUser(userVo));
@@ -114,7 +139,7 @@ public class UserControllerImpl implements UserController {
                 userService.batchAdd(userVos);
             })).sheet().doRead();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new MyApplicationException("导入失败！");
         }
         return Result.success();
     }
