@@ -10,6 +10,14 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class RandomWordsDaoImpl implements RandomWordsDao {
 
+    /**
+     * 测试外部接口的
+     * getWords
+     *
+     * @return java.lang.String
+     * @author xuegao
+     * @date 2023/3/29 20:12
+     */
     public String getWords() {
         RestTemplate restTemplate = new RestTemplate();
         System.out.println("请求成功！！！");
