@@ -19,12 +19,12 @@ import java.util.List;
 @SpringBootTest
 public class UserUnitTest {
 
-    private static final Logger log= LoggerFactory.getLogger(UserUnitTest.class);
+    private static final Logger log = LoggerFactory.getLogger(UserUnitTest.class);
     @Autowired
     private IUserDao userDao;
 
     @Test
-    public void testAdd(){
+    public void testAdd() {
         UserVo userVo = new UserVo();
         userVo.setUserName("user03");
         userVo.setPassword("112233");
@@ -38,22 +38,18 @@ public class UserUnitTest {
     }
 
     @Test
-    public void testBatchAdd(){
+    public void testBatchAdd() {
         ArrayList<UserVo> userVos = new ArrayList<>();
-        UserVo userVo1 = new UserVo("user03","112233","8888888888","事业部",2,"2023-03-21",1);
-        UserVo userVo2 = new UserVo("user03","112233","8888888888","事业部",2,"2023-03-21",1);
-        UserVo userVo3 = new UserVo("user03","112233","8888888888","事业部",2,"2023-03-21",1);
-        UserVo userVo4 = new UserVo("user03","112233","8888888888","事业部",2,"2023-03-21",1);
-        userVos.add(userVo1);
-        userVos.add(userVo2);
-        userVos.add(userVo3);
-        userVos.add(userVo4);
+        for (int i = 0; i < 20000; i++) {
+            UserVo userVo1 = new UserVo("user03", "112233", "8888888888", "事业部", 2, "2023-03-21", 1);
+            userVos.add(userVo1);
+        }
         userDao.batchAdd(userVos);
         log.info("添加成功！！！");
     }
 
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         UserPo userPo = new UserPo();
         userPo.setId(7);
         userPo.setUserName("aaaaa");
@@ -68,7 +64,7 @@ public class UserUnitTest {
     }
 
     @Test
-    public void testDelete(){
+    public void testDelete() {
         UserPo userPo = new UserPo();
         userPo.setId(9);
         userDao.deleteUserById(userPo);
@@ -76,10 +72,10 @@ public class UserUnitTest {
     }
 
     @Test
-    public void testPageResult(){
+    public void testPageResult() {
         HashMap<String, Integer> map = new HashMap<>();
-        map.put("startIndex",0);
-        map.put("pageSize",5);
+        map.put("startIndex", 0);
+        map.put("pageSize", 5);
         List<UserPo> list = userDao.findByPage(map);
         for (UserPo userPo : list) {
             System.out.println(userPo);

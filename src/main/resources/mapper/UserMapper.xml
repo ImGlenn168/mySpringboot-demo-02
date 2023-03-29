@@ -29,6 +29,7 @@
     <update id="updateUserById">
         update user_management
         <set>
+        update_time=now(),
         <if test="userName!=null and userName!=''">
         user_name=#{userName},
         </if>

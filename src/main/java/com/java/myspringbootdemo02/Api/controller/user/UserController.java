@@ -39,7 +39,7 @@ public interface UserController {
 
     // 导出用户
     @GetMapping("/user/exportExcel")
-    void ExportExcel();
+    Result ExportExcel();
 
     //* 导入用户
     @PostMapping("user/importExcel")
