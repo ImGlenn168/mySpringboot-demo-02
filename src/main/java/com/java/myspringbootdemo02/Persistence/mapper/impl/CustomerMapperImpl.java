@@ -24,22 +24,27 @@ public class CustomerMapperImpl implements ICustomerDao {
     }
 
     @Override
-    public int addUser(CustomerPo customerPo) {
-        return 0;
+    public int addCustomer(CustomerPo customerPo) {
+        return customerMapper.addCustomer(customerPo);
     }
 
     @Override
-    public int updateUserById(CustomerPo customerPo) {
-        return 0;
+    public int updateCustomerById(CustomerPo customerPo) {
+        return customerMapper.updateCustomerById(customerPo);
     }
 
     @Override
-    public int deleteUserById(CustomerPo customerPo) {
-        return 0;
+    public int deleteCustomerById(CustomerPo customerPo) {
+        return customerMapper.deleteCustomerById(customerPo);
     }
 
     @Override
     public int batchAdd(List<CustomerPo> list) {
         return customerMapper.batchAdd(list);
+    }
+
+    @Override
+    public CustomerPo getById(int id) {
+        return customerMapper.getById(id);
     }
 }

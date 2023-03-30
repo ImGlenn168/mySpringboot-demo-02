@@ -9,10 +9,12 @@ public interface ICustomerDao {
 
     List<CustomerPo> findByPage(Map<String,Integer> map);
 
-    int addUser(CustomerPo customerPo);
-    int updateUserById(CustomerPo customerPo);
+    int addCustomer(CustomerPo customerPo);
+    int updateCustomerById(CustomerPo customerPo);
 
-    int deleteUserById(CustomerPo customerPo);
+    int deleteCustomerById(CustomerPo customerPo);
 
     int batchAdd(List<CustomerPo> list);
+
+    CustomerPo getById(int id);
 }

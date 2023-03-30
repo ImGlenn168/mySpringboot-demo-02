@@ -1,5 +1,6 @@
 package com.java.myspringbootdemo02.Persistence.mapper.impl;
 
+import com.java.myspringbootdemo02.Common.convert.user.UserPoConvert;
 import com.java.myspringbootdemo02.Common.po.UserPo;
 import com.java.myspringbootdemo02.Common.vo.UserVo;
 import com.java.myspringbootdemo02.Domain.persistence.IUserDao;
@@ -23,7 +24,7 @@ public class UserMapperImpl implements IUserDao {
 
     @Override
     public int addUser(UserVo userVo) {
-        return userMapper.addUser(getUserPo(userVo));
+        return userMapper.addUser(UserPoConvert.getUserPo(userVo));
     }
 
     @Override
@@ -40,7 +41,7 @@ public class UserMapperImpl implements IUserDao {
     public int batchAdd(List<UserVo> list) {
         ArrayList<UserPo> userPos = new ArrayList<>();
         for (UserVo userVo : list) {
-            userPos.add(getUserPo(userVo));
+            userPos.add(UserPoConvert.getUserPo(userVo));
         }
         return userMapper.batchAdd(userPos);
     }
@@ -50,15 +51,4 @@ public class UserMapperImpl implements IUserDao {
         return userMapper.findByPage(map);
     }
 
-    private UserPo getUserPo(UserVo user) {
-        UserPo userPo = new UserPo();
-        userPo.setUserName(user.getUserName());
-        userPo.setPassword(user.getPassword());
-        userPo.setPhone(user.getPhone());
-        userPo.setDept(user.getDept());
-        userPo.setStatus(user.getStatusCode());
-        userPo.setHireTime(user.getHireTime());
-        userPo.setState(user.getStateCode());
-        return userPo;
-    }
 }

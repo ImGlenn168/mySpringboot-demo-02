@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerManagementDTO {
+public class CustomerDTO {
     private int id;
     private String customerNum;
     private String country;
@@ -18,7 +18,8 @@ public class CustomerManagementDTO {
     private String customerName;
     private String phone;
     private String wechatNum;
-    private Integer state;
+    private Integer stateCode;
+    private String state;
     private String followedBy;
     private String description;
     private Date createTime;

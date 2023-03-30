@@ -48,4 +48,11 @@ public class Result {
     public static Result fail( Object data) {
         return new Result(-1, "fail",data);
     }
+
+    public static Result getResult(int i) {
+        if (i > 0) {
+            return Result.success("true");
+        }
+        return Result.fail("false");
+    }
 }

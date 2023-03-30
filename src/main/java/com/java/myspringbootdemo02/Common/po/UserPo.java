@@ -14,13 +14,10 @@ public class UserPo {
     private String userName;
     private String password;
     private String phone;
-
     private String dept;
     private int status;
     private String hireTime;
-
     private Date createTime;
     private Date updateTime;
-
     private int state;
 }

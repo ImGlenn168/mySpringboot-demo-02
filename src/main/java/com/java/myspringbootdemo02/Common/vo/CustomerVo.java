@@ -6,12 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerVo extends BaseEntity {
-    private int id;
+    private String id;
     private String customerNum;
     private String country;
     private String companyName;

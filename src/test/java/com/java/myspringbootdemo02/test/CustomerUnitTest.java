@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,10 +29,10 @@ public class CustomerUnitTest {
     }
 
     @Test
-    public void testAddCustomer() {
+    public void testBatchAddCustomer() {
         ArrayList<CustomerPo> customerPos = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            CustomerPo customerPo = setPo();
+        for (int i = 0; i < 2; i++) {
+            CustomerPo customerPo = getPo();
             customerPos.add(customerPo);
         }
         int i = customerDao.batchAdd(customerPos);
@@ -42,7 +43,60 @@ public class CustomerUnitTest {
         }
     }
 
-    private static CustomerPo setPo() {
+    @Test
+    public void testFindByPage() {
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("startIndex", 0);
+        map.put("pageSize", 5);
+        List<CustomerPo> result = customerDao.findByPage(map);
+        for (CustomerPo customerPo : result) {
+            System.err.println(customerPo);
+        }
+    }
+
+    @Test
+    public void testAddCustomer() {
+        CustomerPo po = getPo();
+        int i = customerDao.addCustomer(po);
+        if (i > 0) {
+            System.out.println("添加成功！");
+        }else {
+            System.out.println("添加失败！");
+        }
+    }
+
+    @Test
+    public void testUpdateById() {
+        CustomerPo po = getPo();
+        po.setId(1);
+        int i = customerDao.updateCustomerById(po);
+        if (i > 0) {
+            System.out.println("修改成功！");
+        }else {
+            System.out.println("修改失败！");
+        }
+    }
+
+    @Test
+    public void testDeleteById() {
+        CustomerPo customerPo = new CustomerPo();
+        customerPo.setId(5);
+        int i = customerDao.deleteCustomerById(customerPo);
+        if (i > 0) {
+            System.out.println("删除成功！");
+        }else {
+            System.out.println("删除失败！");
+        }
+    }
+
+    @Test
+    public void testGetById() {
+        CustomerPo byId = customerDao.getById(6);
+        System.out.println(byId);
+    }
+
+
+    private static CustomerPo getPo() {
         CustomerPo customerPo = new CustomerPo();
         customerPo.setCustomerNum("154461515541651541");
         customerPo.setCountry("China");

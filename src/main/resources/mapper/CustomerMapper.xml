@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--命名空间映射到com.mybatis_demo.mapper.UserMapper类-->
 <mapper namespace="com.java.myspringbootdemo02.Persistence.mapper.ICustomerMapper">
-    <insert id="addUser" parameterType="com.java.myspringbootdemo02.Common.po.CustomerPo">
-        insert into user_management(customer_num, country, company_name, company_address, customer_name, password,
-        phone,wechat_num, state,follwed_by, description, create_time, update_time)
+    <insert id="addCustomer" parameterType="com.java.myspringbootdemo02.Common.po.CustomerPo">
+        insert into customer_management(customer_num, country, company_name, company_address, customer_name, password,
+        phone,wechat_num, state,followed_by, description, create_time, update_time)
         values
-        (#{item.customerNum}, #{item.country}, #{item.companyName}, #{item.companyAddress}, #{item.customerName},
-         #{item.password}, #{item.phone}, #{item.wechatNum}, #{item.state},#{item.followedBy}, #{item.description}, now(), now())
+        (#{customerNum}, #{country}, #{companyName}, #{companyAddress}, #{customerName},
+         #{password}, #{phone}, #{wechatNum}, #{state},#{followedBy}, #{description}, now(), now())
     </insert>
 
     <insert id="batchAdd" parameterType="com.java.myspringbootdemo02.Common.po.CustomerPo">
         insert into customer_management(customer_num, country, company_name, company_address, customer_name, password,
-        phone,wechat_num, state,follwed_by, description, create_time, update_time)
+        phone,wechat_num, state,followed_by, description, create_time, update_time)
         values
         <foreach collection="list" separator="," item="item">
         (#{item.customerNum}, #{item.country}, #{item.companyName}, #{item.companyAddress}, #{item.customerName}, #{item.password},
@@ -22,7 +22,7 @@
 
     <sql id="allFields">
         id, customer_num, country, company_name, company_address, customer_name, password, phone,wechat_num, state,
-            follwed_by, description, create_time, update_time
+            followed_by, description, create_time, update_time
     </sql>
     <select id="findAll" resultType="com.java.myspringbootdemo02.Common.po.CustomerPo">
         select <include refid="allFields"></include> from customer_management
@@ -32,7 +32,11 @@
         select <include refid="allFields"></include> from customer_management limit #{startIndex},#{pageSize}
     </select>
 
-    <update id="updateUserById">
+    <select id="getById" resultType="com.java.myspringbootdemo02.Common.po.CustomerPo">
+        select <include refid="allFields"></include> from customer_management where id=#{id}
+    </select>
+
+    <update id="updateCustomerById">
         update customer_management
         <set>
         update_time=now(),
@@ -55,13 +59,13 @@
                 phone=#{phone},
             </if>
             <if test="wechatNum!=null and wechatNum!=''">
-                wechat_num=#{wechatNum}
+                wechat_num=#{wechatNum},
             </if>
             <if test="state!=null and state!=''">
-                state=#{state}
+                state=#{state},
             </if>
             <if test="followedBy!=null and followedBy!=''">
-                follwed_by=#{followedBy}
+                followed_by=#{followedBy},
             </if>
             <if test="description!=null and description!=''">
                 description=#{description}
@@ -70,7 +74,7 @@
         where id=#{id}
     </update>
 
-    <delete id="deleteUserById">
+    <delete id="deleteCustomerById">
         delete from customer_management where id=#{id}
     </delete>
 </mapper>
