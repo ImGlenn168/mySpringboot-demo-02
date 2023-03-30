@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.mapper.MaterialMapper">
+<mapper namespace="com.java.myspringbootdemo02.Persistence.mapper.IMaterialMapper">
     <resultMap id="BaseResultMap" type="com.java.myspringbootdemo02.Common.po.MaterialPo">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="supplier_num" property="supplierNum" jdbcType="VARCHAR"/>
@@ -18,4 +18,74 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
+
+    <sql id="Base_Column_List">
+        id, supplier_num, material_num, material_name, weight, made_by, picture,
+        package_size, stock, state, price, create_time, update_time
+    </sql>
+
+    <!-- 保存单条记录并返回id -->
+    <insert id="save" parameterType="com.java.myspringbootdemo02.Common.po.MaterialPo"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into material_management (supplier_num, material_num, material_name,
+                                         weight, made_by, picture, package_size,
+                                         stock, state, price, create_time, update_time)
+        values (#{supplierNum}, #{materialNum}, #{materialName},
+                #{weight}, #{madeBy}, #{picture}, #{packageSize},
+                #{stock}, #{state}, #{price}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!-- 批量添加 -->
+    <insert id="batchAdd" parameterType="java.util.List">
+        insert into material_management (supplier_num, material_num, material_name,
+        weight, made_by, picture, package_size,
+        stock, state, price, create_time, update_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.supplierNum}, #{item.materialNum}, #{item.materialName},
+            #{item.weight}, #{item.madeBy}, #{item.picture}, #{item.packageSize},
+            #{item.stock}, #{item.state}, #{item.price},
+            #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <!-- 根据ID禁用记录，state字段置为-1 -->
+    <update id="disableById" parameterType="int">
+        update material_management
+        set state= 0
+        where id = #{id}
+    </update>
+
+    <!-- 更新单条记录 -->
+    <update id="updateById" parameterType="com.java.myspringbootdemo02.Common.po.MaterialPo">
+        update material_management
+        <set>
+            <if test="supplierNum != null">supplier_num=#{supplierNum},</if>
+            <if test="materialNum != null">material_num=#{materialNum},</if>
+            <if test="materialName != null">material_name=#{materialName},</if>
+            <if test="weight != null">weight=#{weight},</if>
+            <if test="madeBy != null">made_by=#{madeBy},</if>
+            <if test="picture != null">picture=#{picture},</if>
+            <if test="packageSize != null">package_size=#{packageSize},</if>
+            <if test="stock != null">stock=#{stock},</if>
+            <if test="price != null">price=#{price},</if>
+            update_time=#{updateTime}
+        </set>
+        where id=#{id}
+    </update>
+
+    <!-- 根据ID获取单条记录 -->
+    <select id="get" parameterType="int" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from material_management
+        where id=#{id}
+    </select>
+
+    <!-- 获取所有记录 -->
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from material_management
+    </select>
 </mapper>

@@ -1,0 +1,21 @@
+package com.java.myspringbootdemo02.App.service.order;
+
+import com.java.myspringbootdemo02.Common.po.OrderPo;
+
+import java.util.List;
+
+public interface IOrderService {
+
+    int save(OrderPo po);
+
+    int batchAdd(List<OrderPo> list);
+
+    int disableById(List<Integer> idList);
+
+    int updateById(OrderPo po);
+
+    int get(int id);
+
+    List<OrderPo> list();
+}
+
