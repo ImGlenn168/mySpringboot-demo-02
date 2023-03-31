@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.myspringbootdemo02.Persistence.mapper.IOrderMapper">
+    <resultMap id="BaseResultMap" type="com.java.myspringbootdemo02.Common.po.OrderPo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_num" property="orderNum" jdbcType="VARCHAR"/>
+        <result column="customer_name" property="customerName" jdbcType="VARCHAR"/>
+        <result column="material_name" property="materialName" jdbcType="VARCHAR"/>
+        <result column="size" property="size" jdbcType="VARCHAR"/>
+        <result column="order_amount" property="orderAmount" jdbcType="INTEGER"/>
+        <result column="unit_price" property="unitPrice" jdbcType="DECIMAL"/>
+        <result column="total_price" property="totalPrice" jdbcType="DECIMAL"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="discription" property="discription" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, order_num, customer_name, material_name, size,
+   order_amount, unit_price, total_price, state, discription,
+   create_time, update_time
+    </sql>
+
+    <!-- 插入单条记录并返回自增主键id -->
+    <insert id="save" parameterType="com.example.model.OrderManagement"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_management (order_num, customer_name, material_name, size,
+                                      order_amount, unit_price, total_price, state, discription,
+                                      create_time, update_time)
+        values (#{orderNum}, #{customerName}, #{materialName}, #{size},
+                #{orderAmount}, #{unitPrice}, #{totalPrice}, #{state}, #{discription},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <!-- 批量插入 -->
+    <insert id="batchAdd" parameterType="java.util.List">
+        insert into order_management (order_num, customer_name, material_name, size,
+        order_amount, unit_price, total_price, state, discription,
+        create_time, update_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.orderNum}, #{item.customerName}, #{item.materialName}, #{item.size},
+            #{item.orderAmount}, #{item.unitPrice}, #{item.totalPrice}, #{item.state}, #{item.discription},
+            #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <!-- 根据ID禁用记录，state字段置为-1 -->
+    <update id="disableById" parameterType="int">
+        update order_management
+        set state=0
+        where id = #{id}
+    </update>
+
+    <!-- 更新单条记录 -->
+    <update id="updateById" parameterType="com.example.model.OrderManagement">
+        update order_management
+        <set>
+            <if test="orderNum != null">order_num=#{orderNum},</if>
+            <if test="customerName != null">customer_name=#{customerName},</if>
+            <if test="materialName != null">material_name=#{materialName},</if>
+            <if test="size != null">size=#{size},</if>
+            <if test="orderAmount != null">order_amount=#{orderAmount},</if>
+            <if test="unitPrice != null">unit_price=#{unitPrice},</if>
+            <if test="totalPrice != null">total_price=#{totalPrice},</if>
+            state=#{state},
+            <if test="discription != null">discription=#{discription},</if>
+            update_time=#{updateTime}
+        </set>
+        where id=#{id}
+    </update>
+
+    <!-- 根据ID获取单条记录 -->
+    <select id="get" parameterType="int" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_management
+        where id=#{id}
+    </select>
+
+    <!-- 获取所有记录 -->
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_management
+    </select>
+</mapper>
+        </mapper>
