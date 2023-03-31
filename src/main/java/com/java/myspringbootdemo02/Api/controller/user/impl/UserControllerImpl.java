@@ -4,6 +4,8 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.listener.PageReadListener;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.java.myspringbootdemo02.Api.controller.user.UserController;
 import com.java.myspringbootdemo02.Api.result.Result;
 import com.java.myspringbootdemo02.App.exception.MyApplicationException;
@@ -37,6 +39,13 @@ public class UserControllerImpl implements UserController {
     public Result findAllUser() {
         List<UserVo> userVos = userService.findAll();
         return Result.success(userVos);
+    }
+
+    public Result findByPageHelper(int currentPage,int pageSize){
+        PageHelper.startPage(currentPage, pageSize);
+        List<UserVo> userVos = userService.findAll();
+        PageInfo<UserVo> pageInfo = new PageInfo<>(userVos);
+        return Result.success(pageInfo);
     }
 
     @Override

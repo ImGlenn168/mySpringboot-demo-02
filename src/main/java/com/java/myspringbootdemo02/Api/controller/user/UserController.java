@@ -44,4 +44,7 @@ public interface UserController {
     //* 导入用户
     @PostMapping("user/importExcel")
     Result ImportExcel(@RequestParam("file") MultipartFile file);
+
+    @GetMapping("user/findByPageHelper")
+    Result findByPageHelper(@PathParam("currentPage") int currentPage, @PathParam("pageSize") int pageSize);
 }

@@ -45,14 +45,11 @@ public class Result {
         return new Result(500, "fail");
     }
 
-    public static Result fail( Object data) {
-        return new Result(-1, "fail",data);
-    }
 
     public static Result getResult(int i) {
         if (i > 0) {
-            return Result.success("true");
+            return Result.result("true");
         }
-        return Result.fail("false");
+        return Result.result("false");
     }
 }

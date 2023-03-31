@@ -29,5 +29,5 @@ public interface ICustomerController {
     Result batchAdd(List<CustomerVo> list);
 
     @GetMapping("customer/get/{id}")
-    CustomerDTO getById(@PathVariable("id") int id);
+    Result getById(@PathVariable("id") int id);
 }

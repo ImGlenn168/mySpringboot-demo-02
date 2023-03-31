@@ -1,11 +1,13 @@
 package com.java.myspringbootdemo02.Api.controller.customer.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.java.myspringbootdemo02.Api.controller.customer.ICustomerController;
 import com.java.myspringbootdemo02.Api.result.Result;
 import com.java.myspringbootdemo02.App.service.customer.ICustomerService;
 import com.java.myspringbootdemo02.Common.dto.CustomerDTO;
 import com.java.myspringbootdemo02.Common.vo.CustomerVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
@@ -27,7 +29,7 @@ public class CustomerControllerImpl implements ICustomerController {
     @Override
     public Result findByPage(int currentPage, int pageSize) {
         HashMap<String, Integer> map = new HashMap<>();
-        map.put("startIndex", (currentPage - 1) * pageSize);
+        map.put("startIndex", (currentPage - 1) * pageSize>1?(currentPage - 1) * pageSize:0);
         map.put("pageSize", pageSize);
         List<CustomerDTO> pageResult = customerService.findByPage(map);
         return Result.success(pageResult);
@@ -58,7 +60,11 @@ public class CustomerControllerImpl implements ICustomerController {
     }
 
     @Override
-    public CustomerDTO getById(@PathVariable("id") int id) {
-        return customerService.getById(id);
+    public Result getById(@PathVariable("id") int id) {
+        CustomerDTO byId = customerService.getById(id);
+        if (byId.getId()==0){
+            return Result.success("该客户不存在！");
+        }
+        return Result.result(byId);
     }
 }
