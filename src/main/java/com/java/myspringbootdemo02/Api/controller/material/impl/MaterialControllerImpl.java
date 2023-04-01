@@ -3,7 +3,7 @@ package com.java.myspringbootdemo02.Api.controller.material.impl;
 import com.java.myspringbootdemo02.Api.controller.material.IMaterialController;
 import com.java.myspringbootdemo02.Api.result.Result;
 import com.java.myspringbootdemo02.App.service.material.IMaterialService;
-import com.java.myspringbootdemo02.Common.po.MaterialPo;
+import com.java.myspringbootdemo02.Common.vo.MaterialVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,12 +16,12 @@ public class MaterialControllerImpl implements IMaterialController {
     private IMaterialService materialService;
 
     @Override
-    public Result save(MaterialPo po) {
-        return Result.result(materialService.save(po));
+    public Result save(MaterialVo vo) {
+        return Result.result(materialService.save(vo));
     }
 
     @Override
-    public Result batchAdd(List<MaterialPo> list) {
+    public Result batchAdd(List<MaterialVo> list) {
         return Result.result(materialService.batchAdd(list));
     }
 
@@ -31,8 +31,8 @@ public class MaterialControllerImpl implements IMaterialController {
     }
 
     @Override
-    public Result updateById(MaterialPo po) {
-        return Result.result(materialService.updateById(po));
+    public Result updateById(MaterialVo vo) {
+        return Result.result(materialService.updateById(vo));
     }
 
     @Override

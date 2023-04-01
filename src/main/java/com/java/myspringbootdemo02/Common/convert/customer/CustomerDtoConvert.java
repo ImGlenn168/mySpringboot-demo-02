@@ -1,7 +1,7 @@
 package com.java.myspringbootdemo02.Common.convert.customer;
 
 import com.java.myspringbootdemo02.Common.dto.CustomerDTO;
-import com.java.myspringbootdemo02.Common.enums.user.CustomerStateEnum;
+import com.java.myspringbootdemo02.Common.enums.customer.CustomerStateEnum;
 import com.java.myspringbootdemo02.Common.po.CustomerPo;
 import org.springframework.util.ObjectUtils;
 

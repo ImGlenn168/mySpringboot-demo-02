@@ -1,4 +1,4 @@
-package com.java.myspringbootdemo02.Common.enums.user;
+package com.java.myspringbootdemo02.Common.enums.customer;
 
 public enum CustomerStateEnum {
     ACTIVATED(1,"已激活"),
