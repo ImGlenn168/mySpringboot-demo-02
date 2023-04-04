@@ -1,4 +1,4 @@
-package com.java.myspringbootdemo02.Common.po;
+package com.java.myspringbootdemo02.Common.vo;
 
 import com.java.myspringbootdemo02.Common.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -6,12 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderPo {
+public class OrderVo extends BaseEntity {
     // 主键
     private int id;
     // 订单号
@@ -28,13 +27,10 @@ public class OrderPo {
     private BigDecimal unitPrice;
     // 总价
     private BigDecimal totalPrice;
+    // 状态码
+    private int stateCode;
     // 状态
-    private int state;
+    private String state;
     // 描述
     private String description;
-    // 创建时间
-    private Date createTime;
-    // 更新时间
-    private Date updateTime;
-
 }

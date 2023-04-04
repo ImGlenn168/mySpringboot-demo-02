@@ -16,7 +16,7 @@ public interface IMaterialMapper {
 
     int updateById(MaterialPo po);
 
-    int get(int id);
+    MaterialPo getById(int id);
 
     List<MaterialPo> list();
 

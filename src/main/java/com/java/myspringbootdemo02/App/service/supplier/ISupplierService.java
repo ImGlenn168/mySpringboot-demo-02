@@ -1,20 +1,21 @@
 package com.java.myspringbootdemo02.App.service.supplier;
 
 import com.java.myspringbootdemo02.Common.po.SupplierPo;
+import com.java.myspringbootdemo02.Common.vo.SupplierVo;
 
 import java.util.List;
 
 public interface ISupplierService {
 
-    int save(SupplierPo po);
+    int save(SupplierVo vo);
 
-    int batchAdd(List<SupplierPo> list);
+    int batchAdd(List<SupplierVo> list);
 
     int disableById(List<Integer> idList);
 
-    int updateById(SupplierPo po);
+    int updateById(SupplierVo vo);
 
-    int get(int id);
+    SupplierVo getById(int id);
 
     List<SupplierPo> list();
 }

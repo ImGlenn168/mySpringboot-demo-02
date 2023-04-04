@@ -15,7 +15,7 @@ public interface IMaterialService {
 
     int updateById(MaterialVo vo);
 
-    int get(int id);
+    MaterialVo getById(int id);
 
     List<MaterialVo> list();
 }

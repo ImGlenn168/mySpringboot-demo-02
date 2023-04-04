@@ -18,8 +18,6 @@ public class MaterialPoConvert {
         po.setStock(vo.getStock());
         po.setState(vo.getStateCode());
         po.setPrice(vo.getPrice());
-        po.setCreateTime(vo.getCreateTime());
-        po.setUpdateTime(vo.getUpdateTime());
         return po;
     }
 }

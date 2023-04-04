@@ -3,8 +3,9 @@ package com.java.myspringbootdemo02.Api.controller.order.impl;
 import com.java.myspringbootdemo02.Api.controller.order.IOrderController;
 import com.java.myspringbootdemo02.Api.result.Result;
 import com.java.myspringbootdemo02.App.service.order.IOrderService;
-import com.java.myspringbootdemo02.Common.po.OrderPo;
+import com.java.myspringbootdemo02.Common.vo.OrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -16,12 +17,12 @@ public class OrderControllerImpl implements IOrderController {
     private IOrderService orderService;
 
     @Override
-    public Result save(OrderPo po) {
+    public Result save(OrderVo po) {
         return Result.result(orderService.save(po));
     }
 
     @Override
-    public Result batchAdd(List<OrderPo> list) {
+    public Result batchAdd(List<OrderVo> list) {
         return Result.result(orderService.batchAdd(list));
     }
 
@@ -31,13 +32,13 @@ public class OrderControllerImpl implements IOrderController {
     }
 
     @Override
-    public Result updateById(OrderPo po) {
-        return Result.result(orderService.updateById(po));
+    public Result updateById(OrderVo vo) {
+        return Result.result(orderService.updateById(vo));
     }
 
     @Override
-    public Result get(int id) {
-        return Result.result(orderService.get(id));
+    public Result getById(@PathVariable("id") int id) {
+        return Result.result(orderService.getById(id));
     }
 
     @Override

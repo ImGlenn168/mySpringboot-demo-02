@@ -24,7 +24,7 @@
         supplier_management
     </sql>
 
-    <insert id="save" parameterType="com.example.model.SupplierManagement" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="com.java.myspringbootdemo02.Common.po.SupplierPo" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO supplier_management (supplier_num, company_name, contact_name, phone, wechat_num, state,
                                          description)
         VALUES (#{supplierNum},
@@ -59,7 +59,7 @@
         WHERE id = #{id}
     </update>
 
-    <update id="updateById" parameterType="com.example.model.SupplierManagement">
+    <update id="updateById" parameterType="com.java.myspringbootdemo02.Common.po.SupplierPo">
         UPDATE supplier_management
         SET
         <if test="supplierNum != null">
@@ -89,7 +89,7 @@
     </update>
 
     <!-- 根据ID获取单条记录 -->
-    <select id="get" parameterType="int" resultMap="BaseResultMap">
+    <select id="getById" parameterType="int" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from supplier_management

@@ -37,8 +37,8 @@ public class OrderMapperImpl implements IOrderDao {
     }
 
     @Override
-    public int get(int id) {
-        return orderMapper.get(id);
+    public OrderPo getById(int id) {
+        return orderMapper.getById(id);
     }
 
     @Override

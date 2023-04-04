@@ -3,8 +3,9 @@ package com.java.myspringbootdemo02.Api.controller.supplier.impl;
 import com.java.myspringbootdemo02.Api.controller.supplier.ISupplierController;
 import com.java.myspringbootdemo02.Api.result.Result;
 import com.java.myspringbootdemo02.App.service.supplier.ISupplierService;
-import com.java.myspringbootdemo02.Common.po.SupplierPo;
+import com.java.myspringbootdemo02.Common.vo.SupplierVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -16,12 +17,12 @@ public class SupplierControllerImpl implements ISupplierController {
     private ISupplierService supplierService;
 
     @Override
-    public Result save(SupplierPo po) {
-        return Result.result(supplierService.save(po));
+    public Result save(SupplierVo vo) {
+        return Result.result(supplierService.save(vo));
     }
 
     @Override
-    public Result batchAdd(List<SupplierPo> list) {
+    public Result batchAdd(List<SupplierVo> list) {
         return Result.result(supplierService.batchAdd(list));
     }
 
@@ -31,13 +32,13 @@ public class SupplierControllerImpl implements ISupplierController {
     }
 
     @Override
-    public Result updateById(SupplierPo po) {
-        return Result.result(supplierService.updateById(po));
+    public Result updateById(SupplierVo vo) {
+        return Result.result(supplierService.updateById(vo));
     }
 
     @Override
-    public Result get(int id) {
-        return Result.result(supplierService.get(id));
+    public Result getById(@PathVariable("id") int id) {
+        return Result.result(supplierService.getById(id));
     }
 
     @Override

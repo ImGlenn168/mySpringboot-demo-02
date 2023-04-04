@@ -22,13 +22,13 @@ public enum UserStateEnum {
 
     public static UserStateEnum getUserStatusByCode(int code){
         if (code==0){
-            return UserStateEnum.USING;
+            return UserStateEnum.DELETED;
         }
         for (UserStateEnum value : UserStateEnum.values()) {
             if (code==value.getCode()){
                 return value;
             }
         }
-        return UserStateEnum.USING;
+        return UserStateEnum.DELETED;
     }
 }

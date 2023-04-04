@@ -36,8 +36,8 @@ public class SupplierMapperImpl implements ISupplierDao {
     }
 
     @Override
-    public int get(int id) {
-        return supplierMapper.get(id);
+    public SupplierPo getById(int id) {
+        return supplierMapper.getById(id);
     }
 
     @Override

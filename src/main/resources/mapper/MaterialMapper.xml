@@ -32,7 +32,7 @@
                                          stock, state, price, create_time, update_time)
         values (#{supplierNum}, #{materialNum}, #{materialName},
                 #{weight}, #{madeBy}, #{picture}, #{packageSize},
-                #{stock}, #{state}, #{price}, #{createTime}, #{updateTime})
+                #{stock}, #{state}, #{price}, now(), now())
     </insert>
 
     <!-- 批量添加 -->
@@ -69,13 +69,13 @@
             <if test="packageSize != null">package_size=#{packageSize},</if>
             <if test="stock != null">stock=#{stock},</if>
             <if test="price != null">price=#{price},</if>
-            update_time=#{updateTime}
+            update_time=now()
         </set>
         where id=#{id}
     </update>
 
     <!-- 根据ID获取单条记录 -->
-    <select id="get" parameterType="int" resultMap="BaseResultMap">
+    <select id="getById" parameterType="int" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from material_management

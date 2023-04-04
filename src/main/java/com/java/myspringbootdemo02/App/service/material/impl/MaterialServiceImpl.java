@@ -44,8 +44,9 @@ public class MaterialServiceImpl implements IMaterialService {
     }
 
     @Override
-    public int get(int id) {
-        return materialDao.get(id);
+    public MaterialVo getById(int id) {
+        MaterialPo byId = materialDao.getById(id);
+        return MaterialVoConvert.toMaterialVo(byId);
     }
 
     @Override

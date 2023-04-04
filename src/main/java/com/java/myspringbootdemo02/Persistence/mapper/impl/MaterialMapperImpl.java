@@ -1,6 +1,8 @@
 package com.java.myspringbootdemo02.Persistence.mapper.impl;
 
+import com.java.myspringbootdemo02.Common.convert.material.MaterialVoConvert;
 import com.java.myspringbootdemo02.Common.po.MaterialPo;
+import com.java.myspringbootdemo02.Common.vo.MaterialVo;
 import com.java.myspringbootdemo02.Domain.persistence.IMaterialDao;
 import com.java.myspringbootdemo02.Persistence.mapper.IMaterialMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +38,8 @@ public class MaterialMapperImpl implements IMaterialDao {
     }
 
     @Override
-    public int get(int id) {
-        return materialMapper.get(id);
+    public MaterialPo getById(int id) {
+        return  materialMapper.getById(id);
     }
 
     @Override

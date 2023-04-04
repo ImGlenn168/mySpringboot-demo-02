@@ -16,7 +16,7 @@ public interface ISupplierMapper {
 
     int updateById(SupplierPo po);
 
-    int get(int id);
+    SupplierPo getById(int id);
 
     List<SupplierPo> list();
 

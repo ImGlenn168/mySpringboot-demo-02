@@ -12,37 +12,37 @@
         <result column="unit_price" property="unitPrice" jdbcType="DECIMAL"/>
         <result column="total_price" property="totalPrice" jdbcType="DECIMAL"/>
         <result column="state" property="state" jdbcType="INTEGER"/>
-        <result column="discription" property="discription" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id, order_num, customer_name, material_name, size,
-   order_amount, unit_price, total_price, state, discription,
+   order_amount, unit_price, total_price, state, description,
    create_time, update_time
     </sql>
 
     <!-- 插入单条记录并返回自增主键id -->
-    <insert id="save" parameterType="com.example.model.OrderManagement"
+    <insert id="save" parameterType="com.java.myspringbootdemo02.Common.po.OrderPo"
             useGeneratedKeys="true" keyProperty="id">
         insert into order_management (order_num, customer_name, material_name, size,
-                                      order_amount, unit_price, total_price, state, discription,
+                                      order_amount, unit_price, total_price, state, description,
                                       create_time, update_time)
         values (#{orderNum}, #{customerName}, #{materialName}, #{size},
-                #{orderAmount}, #{unitPrice}, #{totalPrice}, #{state}, #{discription},
+                #{orderAmount}, #{unitPrice}, #{totalPrice}, #{state}, #{description},
                 #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
     </insert>
 
     <!-- 批量插入 -->
     <insert id="batchAdd" parameterType="java.util.List">
         insert into order_management (order_num, customer_name, material_name, size,
-        order_amount, unit_price, total_price, state, discription,
+        order_amount, unit_price, total_price, state, description,
         create_time, update_time)
         values
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.orderNum}, #{item.customerName}, #{item.materialName}, #{item.size},
-            #{item.orderAmount}, #{item.unitPrice}, #{item.totalPrice}, #{item.state}, #{item.discription},
+            #{item.orderAmount}, #{item.unitPrice}, #{item.totalPrice}, #{item.state}, #{item.description},
             #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP})
         </foreach>
     </insert>
@@ -55,7 +55,7 @@
     </update>
 
     <!-- 更新单条记录 -->
-    <update id="updateById" parameterType="com.example.model.OrderManagement">
+    <update id="updateById" parameterType="com.java.myspringbootdemo02.Common.po.OrderPo">
         update order_management
         <set>
             <if test="orderNum != null">order_num=#{orderNum},</if>
@@ -66,14 +66,14 @@
             <if test="unitPrice != null">unit_price=#{unitPrice},</if>
             <if test="totalPrice != null">total_price=#{totalPrice},</if>
             state=#{state},
-            <if test="discription != null">discription=#{discription},</if>
-            update_time=#{updateTime}
+            <if test="description != null">description=#{description},</if>
+            update_time=CURRENT_TIMESTAMP
         </set>
         where id=#{id}
     </update>
 
     <!-- 根据ID获取单条记录 -->
-    <select id="get" parameterType="int" resultMap="BaseResultMap">
+    <select id="getById" parameterType="int" resultType="com.java.myspringbootdemo02.Common.po.OrderPo" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from order_management
@@ -87,4 +87,3 @@
         from order_management
     </select>
 </mapper>
-        </mapper>

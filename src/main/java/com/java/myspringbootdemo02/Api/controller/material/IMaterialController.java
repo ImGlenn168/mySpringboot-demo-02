@@ -2,6 +2,8 @@ package com.java.myspringbootdemo02.Api.controller.material;
 
 import com.java.myspringbootdemo02.Api.result.Result;
 import com.java.myspringbootdemo02.Common.vo.MaterialVo;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -21,10 +23,10 @@ public interface IMaterialController {
     @PostMapping("/material/updateById")
     Result updateById(@RequestBody MaterialVo vo);
 
-    @PostMapping("/material/get")
-    Result get(@RequestBody int id);
+    @GetMapping("/material/get/{id}")
+    Result getById(@PathVariable("id") int id);
 
-    @PostMapping("/material/list")
+    @GetMapping("/material/list")
     Result list();
 
 }

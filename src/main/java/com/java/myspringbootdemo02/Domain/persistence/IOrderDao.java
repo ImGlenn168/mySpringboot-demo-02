@@ -13,7 +13,7 @@ public interface IOrderDao {
 
      int updateById(OrderPo po);
 
-     int get(int id);
+     OrderPo getById(int id);
 
      List<OrderPo> list();
 }

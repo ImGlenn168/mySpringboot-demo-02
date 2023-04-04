@@ -36,8 +36,8 @@ public class MaterialControllerImpl implements IMaterialController {
     }
 
     @Override
-    public Result get(int id) {
-        return Result.result(materialService.get(id));
+    public Result getById(int id) {
+        return Result.result(materialService.getById(id));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.java.myspringbootdemo02.Domain.persistence;
 
 import com.java.myspringbootdemo02.Common.po.MaterialPo;
+import com.java.myspringbootdemo02.Common.vo.MaterialVo;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface IMaterialDao {
 
      int updateById(MaterialPo po);
 
-     int get(int id);
+     MaterialPo getById(int id);
 
      List<MaterialPo> list();
 }

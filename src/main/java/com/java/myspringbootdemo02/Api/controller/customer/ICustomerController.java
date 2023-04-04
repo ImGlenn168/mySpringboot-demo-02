@@ -10,24 +10,24 @@ import java.util.List;
 
 public interface ICustomerController {
 
-    @GetMapping("customer/find")
+    @GetMapping("/customer/find")
     Result findAll();
 
-    @GetMapping("customer/findByPage")
+    @GetMapping("/customer/findByPage")
     Result findByPage(int currentPage, int pageSize);
 
-    @PostMapping("customer/addCustomer")
+    @PostMapping("/customer/addCustomer")
     Result addCustomer(CustomerVo customerVo);
 
-    @PostMapping("customer/update")
+    @PostMapping("/customer/update")
     Result updateCustomerById(CustomerVo customerVo);
 
-    @PostMapping("customer/delete")
+    @PostMapping("/customer/delete")
     Result deleteCustomerById(CustomerVo customerVo);
 
-    @PostMapping("customer/batchAdd")
+    @PostMapping("/customer/batchAdd")
     Result batchAdd(List<CustomerVo> list);
 
-    @GetMapping("customer/get/{id}")
+    @GetMapping("/customer/get/{id}")
     Result getById(@PathVariable("id") int id);
 }
