@@ -11,7 +11,7 @@ public class Page<T> {
     // 当前页
     private int currentPage;
     // 总数据量
-    private int totalCount;
+    private int total;
     // 总页数
     private int totalPages;
     // 当前页
@@ -29,16 +29,16 @@ public class Page<T> {
     public Page() {
     }
 
-    public Page(int pageSize, int currentPage, int totalSize, List<T> records) {
+    public Page(int pageSize, int currentPage, int total, List<T> records) {
         this.pageSize = pageSize;
         this.currentPage = currentPage;
-        this.totalCount = totalSize;
+        this.total = total;
         this.records = records;
 
-        this.totalPages = (int) Math.ceil(totalSize / (pageSize * 1.0));
+        this.totalPages = (int) Math.ceil(total / (pageSize * 1.0));
 
         this.preNum = Math.max(currentPage - 1, 1);
-        this.nextNum = currentPage + 1 > totalPages ? totalSize : currentPage + 1;
+        this.nextNum = currentPage + 1 > totalPages ? total : currentPage + 1;
 
         this.startNavNum = currentPage - 3;
         this.endNavNum = currentPage + 2;

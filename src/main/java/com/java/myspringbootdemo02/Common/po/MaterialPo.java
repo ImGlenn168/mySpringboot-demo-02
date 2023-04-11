@@ -3,6 +3,7 @@ package com.java.myspringbootdemo02.Common.po;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.poi.hpsf.Decimal;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -15,10 +16,10 @@ public class MaterialPo {
     private String supplierNum;
     private String materialNum;
     private String materialName;
-    private BigDecimal weight;
+    private int weight;
     private String madeBy;
     private String picture;
-    private BigDecimal packageSize;
+    private String packageSize;
     private int stock;
     private int state;
     private BigDecimal price;

@@ -1,6 +1,7 @@
 package com.java.myspringbootdemo02.test;
 
 import com.java.myspringbootdemo02.Common.po.UserPo;
+import com.java.myspringbootdemo02.Common.vo.UserQueryVo;
 import com.java.myspringbootdemo02.Common.vo.UserVo;
 import com.java.myspringbootdemo02.Domain.persistence.IUserDao;
 import org.junit.Test;
@@ -67,7 +68,7 @@ public class UserUnitTest {
     public void testDelete() {
         UserPo userPo = new UserPo();
         userPo.setId(9);
-        userDao.deleteUserById(userPo);
+        userDao.deleteUserById(userPo.getId());
         log.info("删除成功！！！");
     }
 
@@ -76,7 +77,7 @@ public class UserUnitTest {
         HashMap<String, Integer> map = new HashMap<>();
         map.put("startIndex", 0);
         map.put("pageSize", 5);
-        List<UserPo> list = userDao.findByPage(map);
+        List<UserPo> list = userDao.findByPage(map,new UserQueryVo());
         for (UserPo userPo : list) {
             System.out.println(userPo);
         }

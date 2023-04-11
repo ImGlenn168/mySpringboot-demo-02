@@ -4,9 +4,9 @@ import com.java.myspringbootdemo02.Common.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.poi.hpsf.Decimal;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -16,10 +16,10 @@ public class MaterialVo extends BaseEntity {
     private String supplierNum;
     private String materialNum;
     private String materialName;
-    private BigDecimal weight;
+    private int weight;
     private String madeBy;
     private String picture;
-    private BigDecimal packageSize;
+    private String packageSize;
     private int stock;
     private int stateCode;
     private String state;

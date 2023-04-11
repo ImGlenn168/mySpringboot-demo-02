@@ -11,7 +11,7 @@
         <result column="weight" property="weight" jdbcType="DOUBLE"/>
         <result column="made_by" property="madeBy" jdbcType="VARCHAR"/>
         <result column="picture" property="picture" jdbcType="VARCHAR"/>
-        <result column="package_size" property="packageSize" jdbcType="DOUBLE"/>
+        <result column="package_size" property="packageSize" jdbcType="VARCHAR"/>
         <result column="stock" property="stock" jdbcType="INTEGER"/>
         <result column="state" property="state" jdbcType="INTEGER"/>
         <result column="price" property="price" jdbcType="DECIMAL"/>

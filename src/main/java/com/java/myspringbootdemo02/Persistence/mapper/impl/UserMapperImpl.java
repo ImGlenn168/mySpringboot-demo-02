@@ -2,6 +2,7 @@ package com.java.myspringbootdemo02.Persistence.mapper.impl;
 
 import com.java.myspringbootdemo02.Common.convert.user.UserPoConvert;
 import com.java.myspringbootdemo02.Common.po.UserPo;
+import com.java.myspringbootdemo02.Common.vo.UserQueryVo;
 import com.java.myspringbootdemo02.Common.vo.UserVo;
 import com.java.myspringbootdemo02.Domain.persistence.IUserDao;
 import com.java.myspringbootdemo02.Persistence.mapper.IUserMapper;
@@ -18,8 +19,18 @@ public class UserMapperImpl implements IUserDao {
     private IUserMapper userMapper;
 
     @Override
-    public List<UserPo> findAll() {
-        return userMapper.findAll();
+    public List<UserPo> findByCriteria(UserQueryVo userQueryVo) {
+        return userMapper.findByCriteria(userQueryVo);
+    }
+
+    @Override
+    public List<UserPo> findAllUsers() {
+        return userMapper.findAllUsers();
+    }
+
+    @Override
+    public int findUserList(UserQueryVo userQueryVo) {
+        return userMapper.findUserListCount(userQueryVo);
     }
 
     @Override
@@ -33,8 +44,13 @@ public class UserMapperImpl implements IUserDao {
     }
 
     @Override
-    public int deleteUserById(UserPo user) {
-        return userMapper.deleteUserById(user);
+    public int deleteUserById(int id) {
+        return userMapper.deleteUserById(id);
+    }
+
+    @Override
+    public int deleteUserByIds(List<Integer> ids) {
+        return userMapper.deleteUserByIds(ids);
     }
 
     @Override
@@ -47,8 +63,22 @@ public class UserMapperImpl implements IUserDao {
     }
 
     @Override
-    public List<UserPo> findByPage(Map<String, Integer> map) {
-        return userMapper.findByPage(map);
+    public List<UserPo> findByPage(Map<String, Integer> map, UserQueryVo userQueryVo) {
+        return userMapper.findByPage(map,userQueryVo);
     }
 
+    @Override
+    public List<String> selectDeptList() {
+        return userMapper.selectDeptList();
+    }
+
+    @Override
+    public List<Integer> selectStatusList() {
+        return userMapper.selectStatusList();
+    }
+
+    @Override
+    public List<Integer> selectStateList() {
+        return userMapper.selectStateList();
+    }
 }

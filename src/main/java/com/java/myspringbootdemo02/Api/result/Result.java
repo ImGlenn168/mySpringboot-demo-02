@@ -45,6 +45,9 @@ public class Result {
         return new Result(500, "fail");
     }
 
+    public static Result fail(Object data) {
+        return new Result(405, "fail",data);
+    }
 
     public static Result getResult(int i) {
         if (i > 0) {

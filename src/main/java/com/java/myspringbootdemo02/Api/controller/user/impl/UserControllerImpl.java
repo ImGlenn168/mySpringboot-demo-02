@@ -2,33 +2,40 @@ package com.java.myspringbootdemo02.Api.controller.user.impl;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.listener.PageReadListener;
+import com.alibaba.excel.util.StringUtils;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.java.myspringbootdemo02.Api.controller.user.UserController;
+import com.java.myspringbootdemo02.Api.result.Page;
 import com.java.myspringbootdemo02.Api.result.Result;
 import com.java.myspringbootdemo02.App.exception.MyApplicationException;
 import com.java.myspringbootdemo02.App.service.user.impl.UserServiceImpl;
 import com.java.myspringbootdemo02.Common.convert.user.UserConvert;
 import com.java.myspringbootdemo02.Common.convert.user.UserVoConvert;
 import com.java.myspringbootdemo02.Common.entity.User;
+import com.java.myspringbootdemo02.Common.vo.UserQueryVo;
 import com.java.myspringbootdemo02.Common.vo.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.websocket.server.PathParam;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class UserControllerImpl implements UserController {
 
     private static final Logger log= LoggerFactory.getLogger(UserControllerImpl.class);
@@ -36,20 +43,76 @@ public class UserControllerImpl implements UserController {
     @Qualifier(value = "userService")
     private UserServiceImpl userService;
 
-    public Result findAllUser() {
-        List<UserVo> userVos = userService.findAll();
-        return Result.success(userVos);
+    public Result findByPageHelper(int currentPage,int pageSize,String userName, String startTime, String endTime){
+        UserQueryVo userQueryVo = getUserQueryVo(userName, startTime, endTime);
+        if (StringUtils.isEmpty(userQueryVo.getUserName()) && StringUtils.isEmpty(userQueryVo.getStartTime())
+                && StringUtils.isEmpty(userQueryVo.getEndTime())){
+            PageHelper.startPage(currentPage, pageSize);
+            List<UserVo> userVos = userService.findAllUsers();
+            PageInfo<UserVo> pageInfo = new PageInfo<>(userVos);
+            pageInfo.setTotal(userService.findUserList(userQueryVo));
+            if (userVos.size()==0){
+                return Result.success(new PageInfo<UserVo>());
+            }
+            return Result.success(pageInfo);
+        }else {
+            PageHelper.startPage(currentPage, pageSize);
+            List<UserVo> userVos = userService.findByCriteria(userQueryVo);
+            PageInfo<UserVo> pageInfo = new PageInfo<>(userVos);
+            pageInfo.setTotal(userService.findUserList(userQueryVo));
+            if (userVos.size()==0){
+                return Result.success(new PageInfo<UserVo>());
+            }
+            return Result.success(pageInfo);
+        }
     }
 
-    public Result findByPageHelper(int currentPage,int pageSize){
-        PageHelper.startPage(currentPage, pageSize);
-        List<UserVo> userVos = userService.findAll();
-        PageInfo<UserVo> pageInfo = new PageInfo<>(userVos);
-        return Result.success(pageInfo);
+    @Override
+    public Result selectDeptList() {
+        return Result.success(userService.selectDeptList());
+    }
+
+    @Override
+    public Result selectStatusList() {
+        return Result.success(userService.selectStatusList());
+    }
+
+    @Override
+    public Result selectStateList() {
+        return Result.success(userService.selectStateList());
+    }
+
+    private UserQueryVo getUserQueryVo(String userName, String startTime, String endTime) {
+        UserQueryVo userQueryVo = new UserQueryVo();
+        if (!StringUtils.isEmpty(userName)) {
+            userQueryVo.setUserName(userName);
+        }
+        if (!StringUtils.isEmpty(startTime) && !StringUtils.isEmpty(endTime)){
+            userQueryVo.setStartTime(startTime.substring(0, 10));
+            userQueryVo.setEndTime(endTime.substring(0, 10));
+        }
+        return userQueryVo;
+    }
+
+    @Override
+    public Result findAllUsers() {
+        return Result.success(userService.findAllUsers());
     }
 
     @Override
     public Result addUser(@RequestBody UserVo userVo) {
+        if (ObjectUtils.isEmpty(userVo)){
+            return Result.fail("用户不能为空");
+        }
+        if (StringUtils.isEmpty(userVo.getUserName())){
+            return Result.fail("用户名不能为空");
+        }
+        if (StringUtils.isEmpty(userVo.getPassword())){
+            return Result.fail("密码不能为空");
+        }
+        if (StringUtils.isEmpty(userVo.getPhone())){
+            return Result.fail("电话不能为空");
+        }
         int i = userService.addUser(userVo);
         return Result.getResult(i);
     }
@@ -68,11 +131,17 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public Result findByPage(int currentPage, int pageSize) {
+    public Result deleteUserByIds(List<UserVo> users) {
+        return Result.getResult(userService.deleteUserByIds(users));
+    }
+
+    @Override
+    public Result findByPage(int currentPage, int pageSize, String userName, String startTime, String endTime) {
+        UserQueryVo userQueryVo = getUserQueryVo(userName, startTime, endTime);
         HashMap<String, Integer> map = new HashMap<>();
-        map.put("startIndex", (currentPage - 1) * pageSize);
+        map.put("startIndex", (currentPage - 1) * pageSize>1?(currentPage - 1) * pageSize:0);
         map.put("pageSize", pageSize);
-        return Result.success(userService.findByPage(map));
+        return Result.success(userService.findByPage(map,userQueryVo));
     }
 
     @Override
@@ -112,7 +181,7 @@ public class UserControllerImpl implements UserController {
         // 查询用户表
         System.err.println("用户表查询开始............");
         long start = System.currentTimeMillis();
-        List<UserVo> all = userService.findAll();
+        List<UserVo> all = userService.findAllUsers();
         long end = System.currentTimeMillis();
         long result=end-start;
         log.info("用户表查询所用到的时间："+result);

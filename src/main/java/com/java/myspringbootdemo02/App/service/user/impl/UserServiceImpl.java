@@ -4,7 +4,10 @@ import com.java.myspringbootdemo02.App.service.user.IUserService;
 import com.java.myspringbootdemo02.App.utils.ThreadPoolUtil;
 import com.java.myspringbootdemo02.Common.convert.user.UserPoConvert;
 import com.java.myspringbootdemo02.Common.convert.user.UserVoConvert;
+import com.java.myspringbootdemo02.Common.enums.user.UserStateEnum;
+import com.java.myspringbootdemo02.Common.enums.user.UserStatusEnum;
 import com.java.myspringbootdemo02.Common.po.UserPo;
+import com.java.myspringbootdemo02.Common.vo.UserQueryVo;
 import com.java.myspringbootdemo02.Common.vo.UserVo;
 import com.java.myspringbootdemo02.Domain.persistence.IUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +23,8 @@ public class UserServiceImpl implements IUserService {
     private IUserDao userDao;
 
     @Override
-    public List<UserVo> findAll() {
-        List<UserPo> users = userDao.findAll();
+    public List<UserVo> findByCriteria(UserQueryVo userQueryVo) {
+        List<UserPo> users = userDao.findByCriteria(userQueryVo);
         List<UserVo> userVos = new ArrayList<>();
         for (UserPo user : users) {
             userVos.add(UserVoConvert.getUserVo(user));
@@ -41,12 +44,22 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public int deleteUserById(UserVo user) {
-        return userDao.deleteUserById(UserPoConvert.getUserPo(user));
+        UserPo userPo = UserPoConvert.getUserPo(user);
+        return userDao.deleteUserById(userPo.getId());
     }
 
     @Override
-    public List<UserVo> findByPage(Map<String, Integer> map) {
-        List<UserPo> userPos = userDao.findByPage(map);
+    public int deleteUserByIds(List<UserVo> users) {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (UserVo user : users) {
+            list.add(user.getId());
+        }
+        return userDao.deleteUserByIds(list);
+    }
+
+    @Override
+    public List<UserVo> findByPage(Map<String, Integer> map, UserQueryVo userQueryVo) {
+        List<UserPo> userPos = userDao.findByPage(map,userQueryVo);
         List<UserVo> userVos = new ArrayList<>();
         for (UserPo userPo : userPos) {
             UserVo userVo = UserVoConvert.getUserVo(userPo);
@@ -69,5 +82,50 @@ public class UserServiceImpl implements IUserService {
             }
         });
         return userDao.batchAdd(userVos);
+    }
+
+    @Override
+    public List<UserVo> findAllUsers() {
+        List<UserPo> userPos = userDao.findAllUsers();
+        ArrayList<UserVo> userVos = new ArrayList<>();
+        for (UserPo userPo : userPos) {
+            UserVo userVo = UserVoConvert.getUserVo(userPo);
+            userVos.add(userVo);
+        }
+        return userVos;
+    }
+
+    @Override
+    public int findUserList(UserQueryVo userQueryVo) {
+        int userListCount = userDao.findUserList(userQueryVo);
+        if (userListCount==0){
+            return 0;
+        }
+        return userListCount;
+    }
+
+    @Override
+    public List<String> selectDeptList() {
+        return userDao.selectDeptList();
+    }
+
+    @Override
+    public List<String> selectStatusList() {
+        List<Integer> integers = userDao.selectStatusList();
+        List<String> userStatusStr = new ArrayList<>();
+        for (Integer integer : integers) {
+            userStatusStr.add(UserStatusEnum.getUserStatusByCode(integer).getStatus());
+        }
+        return userStatusStr;
+    }
+
+    @Override
+    public List<String> selectStateList() {
+        List<Integer> integers = userDao.selectStateList();
+        List<String> userStateEnums = new ArrayList<>();
+        for (Integer integer : integers) {
+            userStateEnums.add(UserStateEnum.getUserStatusByCode(integer).getState());
+        }
+        return userStateEnums;
     }
 }

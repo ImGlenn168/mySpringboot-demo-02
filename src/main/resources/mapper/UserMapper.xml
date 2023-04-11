@@ -18,12 +18,58 @@
     <sql id="allFields">
         id, user_name, phone, dept, status, hire_time, create_time, update_time, state
     </sql>
-    <select id="findAll" resultType="com.java.myspringbootdemo02.Common.po.UserPo">
+    <select id="findByCriteria" resultType="com.java.myspringbootdemo02.Common.po.UserPo">
         select <include refid="allFields"></include> from user_management
+        <where>
+            1=1
+            <if test="userName!=null and userName!=''">
+                and user_name=#{userName}
+            </if>
+            <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                and hire_time between #{startTime} and #{endTime}
+            </if>
+        </where>
     </select>
 
     <select id="findByPage" resultType="com.java.myspringbootdemo02.Common.po.UserPo">
-        select <include refid="allFields"></include> from user_management limit #{startIndex},#{pageSize}
+select <include refid="allFields"></include> from user_management
+<where>
+    1=1
+    <if test="userQueryVo.userName!=null and userQueryVo.userName!=''">
+    and user_name=#{userQueryVo.userName}
+    </if>
+    <if test="userQueryVo.startTime!=null and userQueryVo.startTime!='' and userQueryVo.endTime!=null and userQueryVo.endTime!=''">
+    and hire_time between #{userQueryVo.startTime} and #{userQueryVo.endTime}
+    </if>
+</where>
+limit #{map.startIndex},#{map.pageSize}
+    </select>
+
+    <select id="findAllUsers" resultType="com.java.myspringbootdemo02.Common.po.UserPo">
+        select <include refid="allFields"></include> from user_management
+    </select>
+
+    <select id="findUserListCount" resultType="java.lang.Integer">
+        select count(1) from user_management
+        <where>
+            1=1
+            <if test="userName!=null and userName!=''">
+                and user_name=#{userName}
+            </if>
+            <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                and hire_time between #{startTime} and #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectDeptList" resultType="java.lang.String">
+        select distinct dept from user_management
+    </select>
+    <select id="selectStatusList" resultType="java.lang.Integer">
+        select distinct status from user_management
+    </select>
+    <select id="selectStateList" resultType="java.lang.Integer">
+        select distinct state from user_management
     </select>
 
     <update id="updateUserById">
@@ -57,6 +103,13 @@
 
     <delete id="deleteUserById">
         delete from user_management where id=#{id}
+    </delete>
+
+    <delete id="deleteUserByIds">
+        delete from user_management where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
     </delete>
 </mapper>
 
