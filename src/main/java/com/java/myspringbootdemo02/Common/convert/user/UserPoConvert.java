@@ -11,13 +11,22 @@ public class UserPoConvert {
     public static UserPo getUserPo(UserVo user) {
         UserPo userPo = new UserPo();
         if (!ObjectUtils.isEmpty(user)) {
+            userPo.setId(user.getId());
             userPo.setUserName(user.getUserName());
             userPo.setPassword(user.getPassword());
             userPo.setPhone(user.getPhone());
             userPo.setDept(user.getDept());
-            userPo.setStatus(UserStatusEnum.getUserStatusByCode(user.getStatusCode()).getCode());
+            if (UserStateEnum.USING.getState().equals(user.getStatee())){
+                userPo.setStatee(UserStateEnum.USING.getCode());
+            }else {
+                userPo.setStatee(UserStateEnum.DELETED.getCode());
+            }
+            if (UserStatusEnum.MANAGER.getStatus().equals(user.getStatus())){
+                userPo.setStatus(UserStatusEnum.MANAGER.getCode());
+            }else {
+                userPo.setStatus(UserStatusEnum.EMPLOYEE.getCode());
+            }
             userPo.setHireTime(user.getHireTime());
-            userPo.setState(UserStateEnum.getUserStatusByCode(user.getStateCode()).getCode());
         }
         return userPo;
     }

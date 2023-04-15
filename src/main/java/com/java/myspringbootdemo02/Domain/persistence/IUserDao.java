@@ -31,4 +31,6 @@ public interface IUserDao {
      List<Integer> selectStatusList();
 
      List<Integer> selectStateList();
+
+     UserPo getById(int id);
 }

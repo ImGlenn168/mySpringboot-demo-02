@@ -59,7 +59,7 @@ public class UserUnitTest {
         userPo.setDept("事业部");
         userPo.setStatus(2);
         userPo.setHireTime("2023-03-21");
-        userPo.setState(1);
+        userPo.setStatee(1);
         userDao.updateUser(userPo);
         log.info("修改成功！！！");
     }

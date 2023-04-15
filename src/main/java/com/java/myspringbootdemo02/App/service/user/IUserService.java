@@ -1,5 +1,6 @@
 package com.java.myspringbootdemo02.App.service.user;
 
+import com.java.myspringbootdemo02.Common.po.UserPo;
 import com.java.myspringbootdemo02.Common.vo.UserQueryVo;
 import com.java.myspringbootdemo02.Common.vo.UserVo;
 
@@ -12,11 +13,11 @@ public interface IUserService {
 
     int addUser(UserVo userVo);
 
-    int updateUserById(UserVo userPo);
+    int updateUserById(UserVo userVo);
 
     int deleteUserById(UserVo user);
 
-    int deleteUserByIds(List<UserVo> users);
+    int deleteUserByIds(List<Integer> ids);
 
     List<UserVo> findByPage(Map<String,Integer> map, UserQueryVo userQueryVo);
 
@@ -31,4 +32,6 @@ public interface IUserService {
     List<String> selectStatusList();
 
     List<String> selectStateList();
+
+    UserVo getById(int id);
 }

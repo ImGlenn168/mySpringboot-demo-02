@@ -25,8 +25,8 @@ public class UserVoConvert {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             userVo.setCreateTime(simpleDateFormat.format(user.getCreateTime()));
             userVo.setUpdateTime(simpleDateFormat.format(user.getUpdateTime()));
-            userVo.setStateCode(UserStateEnum.getUserStatusByCode(user.getState()).getCode());
-            userVo.setState(UserStateEnum.getUserStatusByCode(user.getState()).getState());
+            userVo.setStateCode(UserStateEnum.getUserStatusByCode(user.getStatee()).getCode());
+            userVo.setStatee(UserStateEnum.getUserStatusByCode(user.getStatee()).getState());
         }
         return userVo;
     }
@@ -64,7 +64,7 @@ public class UserVoConvert {
     }
 
     private static void setState(User user, UserVo userVo) {
-        if (UserStatusEnum.MANAGER.getStatus().equals(user.getState()) && !StringUtils.isEmpty(user.getState())){
+        if (UserStatusEnum.MANAGER.getStatus().equals(user.getStatee()) && !StringUtils.isEmpty(user.getStatee())){
             userVo.setStateCode(1);
         }else {
             userVo.setStateCode(2);

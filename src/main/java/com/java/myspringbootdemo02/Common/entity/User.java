@@ -10,8 +10,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class User extends BaseEntity implements Serializable {
     @ExcelProperty("主键")
     private int id;
@@ -26,7 +26,7 @@ public class User extends BaseEntity implements Serializable {
     @ExcelProperty("状态")
     private String status;
     @ExcelProperty("身份")
-    private String state;
+    private String statee;
     @ExcelProperty("雇佣时间")
     private String hireTime;
 }

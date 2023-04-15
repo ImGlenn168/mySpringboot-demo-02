@@ -3,20 +3,20 @@
 <!--命名空间映射到com.mybatis_demo.mapper.UserMapper类-->
 <mapper namespace="com.java.myspringbootdemo02.Persistence.mapper.IUserMapper">
     <insert id="addUser" parameterType="com.java.myspringbootdemo02.Common.po.UserPo">
-        insert into user_management(user_name, password, phone, dept, status, hire_time, create_time, update_time, state)
-        values (#{userName}, #{password}, #{phone}, #{dept}, #{status}, #{hireTime}, now(), now(), #{state})
+        insert into user_management(user_name, password, phone, dept, status, hire_time, create_time, update_time, `statee`)
+        values (#{userName}, #{password}, #{phone}, #{dept}, #{status}, #{hireTime}, now(), now(), #{statee})
     </insert>
 
-    <insert id="batchAdd" parameterType="com.java.myspringbootdemo02.Common.po.UserPo">
-        insert into user_management(user_name, password, phone, dept, status, hire_time, create_time, update_time, state)
+    <insert id="batchAdd" parameterType="java.util.List">
+        insert into user_management(`user_name`, `password`, `phone`, `dept`, `status`, `hire_time`, `create_time`, `update_time`, `statee`)
         values
-        <foreach collection="list" separator="," item="item">
-        (#{item.userName}, #{item.password}, #{item.phone}, #{item.dept}, #{item.status}, #{item.hireTime}, now(), now(), #{item.state})
+        <foreach collection="list" separator="," item="item" index="index">
+        (#{item.userName}, #{item.password}, #{item.phone}, #{item.dept}, #{item.status}, #{item.hireTime}, now(), now(), #{item.statee})
         </foreach>
     </insert>
 
     <sql id="allFields">
-        id, user_name, phone, dept, status, hire_time, create_time, update_time, state
+        id, user_name, phone, dept, status, hire_time, create_time, update_time, `statee`
     </sql>
     <select id="findByCriteria" resultType="com.java.myspringbootdemo02.Common.po.UserPo">
         select <include refid="allFields"></include> from user_management
@@ -69,7 +69,10 @@ limit #{map.startIndex},#{map.pageSize}
         select distinct status from user_management
     </select>
     <select id="selectStateList" resultType="java.lang.Integer">
-        select distinct state from user_management
+        select distinct statee from user_management
+    </select>
+    <select id="getById" resultType="com.java.myspringbootdemo02.Common.po.UserPo">
+        select <include refid="allFields"></include> from user_management where id=#{id}
     </select>
 
     <update id="updateUserById">
@@ -94,8 +97,8 @@ limit #{map.startIndex},#{map.pageSize}
             <if test="hireTime!=null and hireTime!=''">
             hire_time=#{hireTime},
             </if>
-            <if test="state!=null and state!=''">
-            state=#{state}
+            <if test="statee!=null and statee!=''">
+                statee=#{statee}
             </if>
         </set>
         where id=#{id}
@@ -107,7 +110,7 @@ limit #{map.startIndex},#{map.pageSize}
 
     <delete id="deleteUserByIds">
         delete from user_management where id in
-        <foreach collection="ids" open="(" close=")" separator="," item="id">
+        <foreach collection="list" open="(" close=")" separator="," item="id">
             #{id}
         </foreach>
     </delete>

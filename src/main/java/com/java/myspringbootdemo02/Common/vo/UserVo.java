@@ -24,7 +24,7 @@ public class UserVo extends BaseEntity {
     private String status;
     private String hireTime;
     private int stateCode;
-    private String state;
+    private String statee;
 
     public UserVo(String userName, String password, String phone,
                   String dept, int statusCode, String hireTime, int stateCode) {
@@ -36,6 +36,6 @@ public class UserVo extends BaseEntity {
         this.status = status;
         this.hireTime = hireTime;
         this.stateCode = stateCode;
-        this.state = state;
+        this.statee = statee;
     }
 }

@@ -15,7 +15,7 @@ public class UserConvert {
             user.setPhone(userVo.getPhone());
             user.setDept(userVo.getDept());
             user.setStatus(userVo.getStatus());
-            user.setState(userVo.getState());
+            user.setStatee(userVo.getStatee());
             user.setHireTime(userVo.getHireTime());
             user.setHireTime(userVo.getHireTime());
             user.setUpdateTime(userVo.getUpdateTime());

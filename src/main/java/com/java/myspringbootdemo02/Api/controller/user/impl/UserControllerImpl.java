@@ -1,14 +1,15 @@
 package com.java.myspringbootdemo02.Api.controller.user.impl;
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.excel.read.listener.PageReadListener;
+import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.util.StringUtils;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.java.myspringbootdemo02.Api.controller.user.UserController;
-import com.java.myspringbootdemo02.Api.result.Page;
 import com.java.myspringbootdemo02.Api.result.Result;
 import com.java.myspringbootdemo02.App.exception.MyApplicationException;
 import com.java.myspringbootdemo02.App.service.user.impl.UserServiceImpl;
@@ -22,17 +23,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.websocket.server.PathParam;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 //@CrossOrigin("*")
@@ -82,6 +80,12 @@ public class UserControllerImpl implements UserController {
         return Result.success(userService.selectStateList());
     }
 
+    @Override
+    public Result getById(@PathVariable("id") int id) {
+        UserVo byId = userService.getById(id);
+        return Result.success(byId);
+    }
+
     private UserQueryVo getUserQueryVo(String userName, String startTime, String endTime) {
         UserQueryVo userQueryVo = new UserQueryVo();
         if (!StringUtils.isEmpty(userName)) {
@@ -119,8 +123,8 @@ public class UserControllerImpl implements UserController {
 
 
     @Override
-    public Result updateUserById(UserVo userPo) {
-        int i = userService.updateUserById(userPo);
+    public Result updateUserById(UserVo userVo) {
+        int i = userService.updateUserById(userVo);
         return Result.getResult(i);
     }
 
@@ -131,8 +135,8 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public Result deleteUserByIds(List<UserVo> users) {
-        return Result.getResult(userService.deleteUserByIds(users));
+    public Result deleteUserByIds(List<Integer> ids) {
+        return Result.getResult(userService.deleteUserByIds(ids));
     }
 
     @Override
@@ -210,7 +214,7 @@ public class UserControllerImpl implements UserController {
                 userService.batchAdd(userVos);
             })).sheet().doRead();
         } catch (Exception e) {
-            throw new MyApplicationException("导入失败！");
+            throw new MyApplicationException("导入失败："+e);
         }
         return Result.success();
     }

@@ -81,4 +81,9 @@ public class UserMapperImpl implements IUserDao {
     public List<Integer> selectStateList() {
         return userMapper.selectStateList();
     }
+
+    @Override
+    public UserPo getById(int id) {
+        return userMapper.getById(id);
+    }
 }

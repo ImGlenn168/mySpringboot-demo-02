@@ -49,12 +49,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public int deleteUserByIds(List<UserVo> users) {
-        ArrayList<Integer> list = new ArrayList<>();
-        for (UserVo user : users) {
-            list.add(user.getId());
-        }
-        return userDao.deleteUserByIds(list);
+    public int deleteUserByIds(List<Integer> ids) {
+        return userDao.deleteUserByIds(ids);
     }
 
     @Override
@@ -97,11 +93,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public int findUserList(UserQueryVo userQueryVo) {
-        int userListCount = userDao.findUserList(userQueryVo);
-        if (userListCount==0){
-            return 0;
-        }
-        return userListCount;
+        return userDao.findUserList(userQueryVo);
     }
 
     @Override
@@ -127,5 +119,11 @@ public class UserServiceImpl implements IUserService {
             userStateEnums.add(UserStateEnum.getUserStatusByCode(integer).getState());
         }
         return userStateEnums;
+    }
+
+    @Override
+    public UserVo getById(int id) {
+        UserPo byId = userDao.getById(id);
+        return UserVoConvert.getUserVo(byId);
     }
 }

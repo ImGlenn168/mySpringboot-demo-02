@@ -22,7 +22,7 @@ public interface IUserMapper {
 
     int deleteUserById(int id);
 
-    int deleteUserByIds(List<Integer> ids);
+    int deleteUserByIds(List<Integer> list);
     int batchAdd(List<UserPo> list);
 
     int findUserListCount(UserQueryVo userQueryVo);
@@ -32,4 +32,6 @@ public interface IUserMapper {
     List<Integer> selectStatusList();
 
     List<Integer> selectStateList();
+
+    UserPo getById(int id);
 }

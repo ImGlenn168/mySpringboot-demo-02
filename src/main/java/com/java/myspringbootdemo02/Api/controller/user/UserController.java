@@ -3,10 +3,7 @@ package com.java.myspringbootdemo02.Api.controller.user;
 import com.java.myspringbootdemo02.Api.result.Result;
 import com.java.myspringbootdemo02.Common.vo.UserQueryVo;
 import com.java.myspringbootdemo02.Common.vo.UserVo;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.websocket.server.PathParam;
@@ -24,14 +21,14 @@ public interface UserController {
 
     // 修改单个用户
     @PostMapping("/user/update")
-    Result updateUserById(@RequestBody UserVo userPo);
+    Result updateUserById(@RequestBody UserVo userVo);
 
     // 删除用户
     @PostMapping("/user/delete")
     Result deleteUserById(@RequestBody UserVo user);
 
     @PostMapping("/user/batchDelete")
-    Result deleteUserByIds(@RequestBody List<UserVo> users);
+    Result deleteUserByIds(@RequestBody List<Integer> ids);
 
     // 分页查询用户
     @GetMapping("/user/findByPage")
@@ -64,4 +61,7 @@ public interface UserController {
 
     @GetMapping("/user/stateList")
     Result selectStateList();
+
+    @GetMapping("/user/{id}")
+    Result getById(@PathVariable("id") int id);
 }

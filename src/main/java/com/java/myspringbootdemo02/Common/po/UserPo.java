@@ -19,5 +19,5 @@ public class UserPo {
     private String hireTime;
     private Date createTime;
     private Date updateTime;
-    private int state;
+    private int statee;
 }
