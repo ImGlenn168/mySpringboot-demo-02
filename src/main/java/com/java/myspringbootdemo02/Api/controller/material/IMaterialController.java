@@ -29,4 +29,6 @@ public interface IMaterialController {
     @GetMapping("/material/list")
     Result list();
 
+    @GetMapping("/material/list/{id}")
+    Result getByTheadPool(@PathVariable("id") int id);
 }

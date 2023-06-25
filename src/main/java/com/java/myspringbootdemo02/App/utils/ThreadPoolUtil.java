@@ -27,7 +27,7 @@ public class ThreadPoolUtil {
         return threadPoolExecutor;
     }
 
-    public static ExecutorService getExecutorService() {
+    public static ExecutorService getFixedThreadPool() {
         if (executorService != null) {
             return executorService;
         } else {
