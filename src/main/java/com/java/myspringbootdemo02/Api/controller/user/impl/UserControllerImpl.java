@@ -29,7 +29,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -139,6 +141,11 @@ public class UserControllerImpl implements UserController {
             return Result.fail("权限不足！");
         }
         int i = userService.deleteUserById(user);
+        apiOperator.setOperatorName(user.getUserName());
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-ss HH:mm:ss");
+        String currentTime = format.format(date);
+        apiOperator.setOperateTime(currentTime);
         return Result.getResult(i);
     }
 

@@ -13,7 +13,7 @@ public class ApiOperationAnnoService {
             synchronized (ApiOperationAnnoService.class) {
                 try {
                     // 检查注解的类
-                    Class<?> aClass = Class.forName("");
+                    Class<?> aClass = Class.forName("com.java.myspringbootdemo02.Api.controller.user.impl.UserControllerImpl");
                     Method[] declaredMethods = aClass.getDeclaredMethods();
                     for (Method declaredMethod : declaredMethods) {
                         log.info("current method : {}", declaredMethod);
