@@ -8,7 +8,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ApiOperationAnno {
-    String operator();
-
-    String operateTime();
+    String status();
+    String action();
 }

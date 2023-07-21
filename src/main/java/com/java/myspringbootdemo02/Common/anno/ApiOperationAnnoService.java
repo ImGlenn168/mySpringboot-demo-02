@@ -1,18 +1,15 @@
 package com.java.myspringbootdemo02.Common.anno;
 
+import com.java.myspringbootdemo02.Common.vo.ApiOperator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.lang.reflect.Method;
-import java.util.HashMap;
 
 @Slf4j
 @Service
 public class ApiOperationAnnoService {
-    private static volatile HashMap<String, String> map;
 
-    public static HashMap<String, String> buildApiOperationLog() {
-        if (map == null) {
+    public ApiOperator buildApiOperationLog(ApiOperator apiOperator) {
             synchronized (ApiOperationAnnoService.class) {
                 try {
                     // 检查注解的类
@@ -24,17 +21,15 @@ public class ApiOperationAnnoService {
                         if (present) {
                             ApiOperationAnno annotation = declaredMethod.getAnnotation(ApiOperationAnno.class);
                             log.info("annotation: {}", annotation);
-                            map.put(declaredMethod.getName(), declaredMethod.getName());
-                            map.put("operator", annotation.operator());
-                            map.put("operateTime", annotation.operateTime());
-
+                            apiOperator.setMethodName(declaredMethod.getName());
+                            apiOperator.setStatus(annotation.status());
+                            apiOperator.setAction(annotation.action());
                         }
                     }
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
             }
-        }
-        return map;
+        return apiOperator;
     }
 }

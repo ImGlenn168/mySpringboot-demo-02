@@ -1,9 +1,7 @@
 package com.java.myspringbootdemo02.Api.controller.user.impl;
 
 import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.excel.read.listener.PageReadListener;
-import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.util.StringUtils;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
@@ -13,9 +11,12 @@ import com.java.myspringbootdemo02.Api.controller.user.UserController;
 import com.java.myspringbootdemo02.Api.result.Result;
 import com.java.myspringbootdemo02.App.exception.MyApplicationException;
 import com.java.myspringbootdemo02.App.service.user.impl.UserServiceImpl;
+import com.java.myspringbootdemo02.Common.anno.ApiOperationAnno;
+import com.java.myspringbootdemo02.Common.anno.ApiOperationAnnoService;
 import com.java.myspringbootdemo02.Common.convert.user.UserConvert;
 import com.java.myspringbootdemo02.Common.convert.user.UserVoConvert;
 import com.java.myspringbootdemo02.Common.entity.User;
+import com.java.myspringbootdemo02.Common.vo.ApiOperator;
 import com.java.myspringbootdemo02.Common.vo.UserQueryVo;
 import com.java.myspringbootdemo02.Common.vo.UserVo;
 import org.slf4j.Logger;
@@ -40,6 +41,8 @@ public class UserControllerImpl implements UserController {
     @Autowired
     @Qualifier(value = "userService")
     private UserServiceImpl userService;
+    @Autowired
+    private ApiOperationAnnoService apiOperationAnnoService;
 
     public Result findByPageHelper(int currentPage,int pageSize,String userName, String startTime, String endTime){
         UserQueryVo userQueryVo = getUserQueryVo(userName, startTime, endTime);
@@ -129,7 +132,12 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
+    @ApiOperationAnno(status = "admin", action = "根据id删除用户信息")
     public Result deleteUserById(UserVo user) {
+        ApiOperator apiOperator = apiOperationAnnoService.buildApiOperationLog(new ApiOperator());
+        if (!user.getStatus().equals(apiOperator.getStatus())){
+            return Result.fail("权限不足！");
+        }
         int i = userService.deleteUserById(user);
         return Result.getResult(i);
     }
