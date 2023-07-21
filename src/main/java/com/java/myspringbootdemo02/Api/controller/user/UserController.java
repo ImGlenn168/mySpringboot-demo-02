@@ -1,7 +1,6 @@
 package com.java.myspringbootdemo02.Api.controller.user;
 
 import com.java.myspringbootdemo02.Api.result.Result;
-import com.java.myspringbootdemo02.Common.vo.UserQueryVo;
 import com.java.myspringbootdemo02.Common.vo.UserVo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
