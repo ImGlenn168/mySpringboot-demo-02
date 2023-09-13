@@ -136,7 +136,7 @@ public class UserControllerImpl implements UserController {
     @Override
     @ApiOperationAnno(status = "admin", action = "根据id删除用户信息")
     public Result deleteUserById(UserVo user) {
-        ApiOperator apiOperator = apiOperationAnnoService.buildApiOperationLog(new ApiOperator());
+        ApiOperator apiOperator = apiOperationAnnoService.buildApiOperationLog();
         if (!user.getStatus().equals(apiOperator.getStatus())){
             return Result.fail("权限不足！");
         }
