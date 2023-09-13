@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 @Slf4j
 @Service
 public class ApiOperationAnnoService {
-    
+
     @Value("${anno.aClass}")
     private String aClass;
 
